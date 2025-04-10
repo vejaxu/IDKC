@@ -18,9 +18,10 @@
 
 % visualResults(data,Tclass,Centre,NMI)
 
-
-load(['Data/one_to_five/USPS.mat'])
-% load(['Data/spam.mat'])
+addpath("IDKC")
+addpath("utils")
+addpath("metrics")
+load(['../Data/AC.mat'])
 
 data = double(data);    
 class = double(class);
