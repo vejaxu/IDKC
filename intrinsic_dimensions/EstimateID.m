@@ -3,10 +3,12 @@ k = 50;
 
 disp("Loading...");
 tic;
-mF = matfile("./featuremaps/NYC/NYC_GDK_1600_train.mat");
-data = mF.featureMaps;
+mF = matfile("../../Data/AC.mat");
+% data = mF.featureMaps;
+data = mF.data;
 n = size(data, 1);
-data = data(randperm(n, 100000), :);
+% data = data(randperm(n, 100000), :);
+data = data(randperm(n, round(n)), :);
 data = unique(data, 'rows');
 n = size(data, 1);
 toc;
@@ -31,11 +33,12 @@ for i = 1 : n
 end
 toc;
 
-% boxplot(ids);
-% set(gcf, 'color', 'w');
-% set(gca,'linewidth', 1, 'fontsize', 14, 'fontname', 'Times');
-% ylabel('ID');
-% title('Estimated intrinsic dimensions');
+
+boxplot(ids);
+set(gcf, 'color', 'w');
+set(gca,'linewidth', 1, 'fontsize', 14, 'fontname', 'Times');
+ylabel('ID');
+title('Estimated intrinsic dimensions');
 disp(quantile(ids, [0.03, 0.25, 0.5, 0.75, 0.97]));
 % % IDK:
 % % T-Drive:  2.1951,  4.6151,  7.6759,  9.6981, 13.3389
