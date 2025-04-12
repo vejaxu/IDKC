@@ -1,13 +1,16 @@
-load("Data/USPS.mat")
+addpath("../metrics/")
+load("../../Data/AC.mat")
 data;
 class;
 num_clusters = length(unique(class));
-sigma = 1;
+sigma = 0.5;
 n = size(data, 1);
 W = zeros(n, n);
+epsilon = 1e-5;  % 加入小的正数以避免奇异矩阵
 for i = 1:n
     for j = 1:n
-        W(i, j) = exp(-norm(data(i, :) - data(j, :))^2 / (2 * sigma^2));
+        W(i, j) = exp(-norm(data(i, :) - data(j, :))^2 / (2 * sigma^2)) + epsilon;
+        % W(i, j) = exp(-norm(data(i, :) - data(j, :))^2 / (2 * sigma^2));
     end
 end
 D = diag(sum(W, 2));
