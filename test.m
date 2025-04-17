@@ -21,7 +21,10 @@
 addpath("IDKC")
 addpath("utils")
 addpath("metrics")
-load(['../Data/AC.mat'])
+load(['../Data/one_to_five/isolet.mat'])
+
+class = class';
+class = str2double(class);
 
 data = double(data);    
 class = double(class);
