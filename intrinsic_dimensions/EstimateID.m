@@ -3,9 +3,10 @@ k = 50;
 
 disp("Loading...");
 tic;
-mF = matfile("../../Data/AC.mat");
+mF = matfile("../../Data/one_to_five/usps_resampled.mat");
 % data = mF.featureMaps;
 data = mF.data;
+
 n = size(data, 1);
 % data = data(randperm(n, 100000), :);
 data = data(randperm(n, round(n)), :);
