@@ -33,7 +33,7 @@ datasets = {
 
 
 dataset_names = {'AC', 'spam', 'a9a', 'ImageNet-10', 'Cifar-10', ...
-                 'aloi', 'usps_resampled' 'USPS', 'mnist', 'mnist100000', 'COIL20', ...
+                 'aloi', 'usps-resampled' 'USPS', 'mnist', 'mnist100000', 'COIL20', ...
                  'RCV1', 'gisette', 'YaleB'};
 
 k = 50;
@@ -65,15 +65,17 @@ ylabel('ID');
 title('Estimated Intrinsic Dimensions Across Datasets');
 
 
-% 获取所有数据集的中位数并进行标注
-hold on;
-% 获取箱线图的中位数
-medians = grpstats(all_ids, all_labels, {@median});
-
-% 标注每个数据集的中位数
-positions = 1:numel(dataset_names); % 位置对应每个数据集
-for i = 1:numel(medians)
-    text(positions(i), medians(i) + 0.05, sprintf('%.2f', medians(i)), ...
-        'HorizontalAlignment', 'center', 'FontSize', 12, 'Color', 'k');
-end
-hold off;
+% % 获取所有数据集的中位数并进行标注
+% hold on;
+% % 获取箱线图的中位数
+% medians = grpstats(all_ids, all_labels, {@median});
+% 
+% % 标注每个数据集的中位数
+% positions = 1:numel(dataset_names); % 位置对应每个数据集
+% for i = 1:numel(medians)
+%     text(positions(i), medians(i) + 0.05, sprintf('%.2f', medians(i)), ...
+%         'HorizontalAlignment', 'center', 'FontSize', 12, 'Color', 'k');
+% end
+% hold off;
+% 获取所有数据集的中位数
+% 获取所有数据集的中位数

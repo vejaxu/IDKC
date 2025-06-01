@@ -1,15 +1,25 @@
-% 生成数据
+% n = 5000;
+% w = 4000;
+% data0 = zeros(n,w);
+% data1 = randn(n,w);
+% data2 = randn(n,w);
+% data = [[data1,data0];[data0,data2]];
+% class = ones(2*n,1);
+% class(n+1:end) = 2;
+% filename = sprintf('../../Data/w%dGaussians.mat', w);
+% save(filename, 'data', 'class');
+
 n = 2000;
-w = 5;
+w = 40;
+variance1 = 1;
+variance2 = 1;
+std1 = sqrt(variance1);
+std2 = sqrt(variance2);
 data0 = zeros(n,w);
-data1 = randn(n,w);
-data2 = randn(n,w);
+data1 = std1 * randn(n,w);
+data2 = std2 * randn(n,w);
 data = [[data1,data0];[data0,data2]];
 class = ones(2*n,1);
 class(n+1:end) = 2;
-
-% 生成文件名，包含 w 的值
-filename = sprintf('../../Data/w%dGaussians.mat', w);
-
-% 保存数据
+filename = sprintf('../../Data/w%dGaussian.mat', w);
 save(filename, 'data', 'class');

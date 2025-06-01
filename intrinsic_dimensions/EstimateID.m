@@ -3,7 +3,7 @@ k = 50;
 
 disp("Loading...");
 tic;
-mF = matfile("../../Data/one_to_five/usps_resampled.mat");
+mF = matfile("../../Data/w1Gaussians.mat");
 % data = mF.featureMaps;
 data = mF.data;
 
