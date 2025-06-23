@@ -1,30 +1,70 @@
-addpath("../metrics/")
-load("../../Data/AC.mat")
-data;
-class;
-num_clusters = length(unique(class));
-sigma = 0.5;
-n = size(data, 1);
-W = zeros(n, n);
-epsilon = 1e-5;  % 加入小的正数以避免奇异矩阵
-for i = 1:n
-    for j = 1:n
-        W(i, j) = exp(-norm(data(i, :) - data(j, :))^2 / (2 * sigma^2)) + epsilon;
-        % W(i, j) = exp(-norm(data(i, :) - data(j, :))^2 / (2 * sigma^2));
+clear
+clc
+addpath E:\XWJ_code\personal\IDKC\metrics
+datasets = ["E:\XWJ_code\personal\Data\AC.mat"];
+
+Res = [];
+
+for datai = 1: length(datasets)
+    datanow = char(datasets(datai));
+    load(datanow);
+
+    if size(class,1) < size(class,2)
+        class = class';
     end
+
+    dataA = data;
+    data = (data - min(data)).*((max(data) - min(data)).^-1);
+    data(isnan(data)) = 0.5; % data normalisation
+    class = class - min(class) + 1;
+
+
+siglist = [2.^[-5: 1: 5] 2.^[-5: 1: 5].*size(data, 2)];
+% siglist=[0.01];
+siglist = unique(siglist);
+
+k = size(unique(class), 1);
+t = min(400, size(data, 1));
+rounds = 1;
+
+
+class = double(class);
+
+
+AA = zeros(rounds,2);
+
+for i = 1: 1: rounds
+
+dist_temp = pdist(data);
+dist = squareform(dist_temp);
+
+for pp = 1: length(siglist)    
+    sig = siglist(pp);
+    S = exp(-0.5 * (dist.^2)./(2 * sig ^ 2));
+    Tclass = spectralcluster(S, k, 'Distance', 'precomputed', 'LaplacianNormalization', 'symmetric');
+    [NMI] = nmi(class,Tclass);
+    % [f1]=fmeasure(class,Tclass);
+    AA(i,pp) = NMI;
+    % FA(i,pp) = f1;
 end
-D = diag(sum(W, 2));
-L = D - W;
+end
+[maxNMI, pp] = max(mean(AA, 1));
+% [maxFme, ~] = max(mean(FA, 1));
+Res = [Res;maxNMI];
+end
 
-D_inv_sqrt = D^(-0.5);
-L_sym = D_inv_sqrt * L * D_inv_sqrt;
+sig = siglist(pp);
+S = exp(-0.5 * (dist.^2)./(2 * sig ^ 2));
 
-[eig_vec, ~] = eigs(L_sym, num_clusters, 'smallestabs');
+Tclass = spectralcluster(S, k, 'Distance', 'precomputed', 'LaplacianNormalization', 'symmetric');
+% Tclass = spectralcluster(S,k,'Distance','precomputed','LaplacianNormalization','none');
+% [Tclass] = BestMapping(class, Tclass);
+[NMI] = nmi(class, Tclass);
 
-Y = bsxfun(@rdivide, eig_vec, sqrt(sum(eig_vec.^2, 2)));
+color = ['r','b','b','c','m','y'];
 
-pred_labels = kmeans(Y, num_clusters);
 
-nmi_value = nmi(Y, pred_labels + 1);
-
-fprintf('NMI 值为: %.4f\n', nmi_value);
+gscatter(data(:, 1), data(:, 2), Tclass, color, [], 15);
+axis off
+axis([0 1 0 1])
+set(gcf, 'InvertHardCopy', 'off');
