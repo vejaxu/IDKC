@@ -21,7 +21,7 @@
 addpath("IDKC")
 addpath("utils")
 addpath("metrics")
-load(['../Data/dense_8_sparse_1_sparse_1.mat'])
+load(['../Data/one_gaussian_10_one_line_5_2.mat'])
 
 data = double(data);    
 class = double(class);
@@ -31,16 +31,17 @@ data(isnan(data)) = 0.5; % Data normalization
 k = size(unique(class), 1);
 
 v = 0.9;
-% s = min(size(data, 1), 10000);
+s = min(size(data, 1), 10000);
 s = size(data, 1);
 t = 100;
 rng(1)
 
 n = size(data, 1);
-Kn_values = round(n * (0.05:0.05:0.5));
+Kn_values = round(n * (0.05: 0.05: 0.5));
 % psi_values = [2, 4, 6, 8, 16, 24, 32, 48, 64, 80, 100, 200, 250, 500, 750, 1000, 2000, 2500];
 % psi_values = [2, 4, 6, 8, 16, 24, 32, 48, 64, 80, 100, 200, 250, 500, 750, 1000, 2000]; % YaleB
-psi_values = [2, 4, 6, 8, 16, 24, 32, 48, 64, 80, 100, 200, 250, 500, 750]; % DSSS
+% psi_values = [2, 4, 6, 8, 16, 24, 32, 48, 64, 80, 100, 200, 250, 500, 750]; % DSSS
+psi_values = [2, 4, 6, 8, 16, 24, 32, 48, 64, 80, 100, 200, 250, 500, 750]; % AC
 
 best_NMI = -inf;
 best_ARI = -inf;
