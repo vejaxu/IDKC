@@ -20,7 +20,7 @@ for datai = 1: length(datasets)
 siglist = [2.^[-5: 1: 5] 2.^[-5: 1: 5].*size(data, 2)]; % 构造超参列表
 siglist = unique(siglist);
 
-k = size(unique(class), 1); % 自动识别聚类数
+k = size(unique(class), 1) % 自动识别聚类数
 t = min(400, size(data, 1));
 
 rounds = 10; % 每个参数跑10次
@@ -68,7 +68,8 @@ Tclass = spectralcluster(S, k, 'Distance', 'precomputed', 'LaplacianNormalizatio
 % [Tclass] = BestMapping(class, Tclass);
 [NMI] = nmi(class, Tclass);
 
-color = ['r','b','b','c','m','y'];
+% color = ['r','b','b','c','m','y'];
+color = ['r','g','b','c','m','y','k',[0.5 0.5 0.5],'b','r'];
 
 gscatter(data(:, 1), data(:, 2), Tclass, color, [], 15);
 xlim([0 1]);     % 设置 x 轴范围
