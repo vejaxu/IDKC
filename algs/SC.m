@@ -1,7 +1,7 @@
 clear
 clc
 addpath E:\XWJ_code\personal\IDKC\metrics
-datasets = ["E:\XWJ_code\personal\Data\one_gaussian_10_one_line_5_2.mat"];
+datasets = ["E:\XWJ_code\personal\Data\complex9.mat"];
 
 Res = []; % 保存每个数据集的最优聚类指标结果
 
