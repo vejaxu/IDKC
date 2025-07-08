@@ -1,13 +1,16 @@
-clear
-clc
+clear;      % 清除工作区中的变量
+clc;        % 清除命令行窗口内容
+close all;  % 关闭所有打开的图窗
 addpath E:\XWJ_code\personal\IDKC\metrics
-datasets = ["E:\XWJ_code\personal\Data\complex9.mat"];
+datasets = ["E:\XWJ_code\personal\Data\AC.mat"];
 
 Res = []; % 保存每个数据集的最优聚类指标结果
 
 for datai = 1: length(datasets)
     datanow = char(datasets(datai));
     load(datanow);
+    data = data;
+    class = class;
     if size(class, 1) < size(class, 2)
         class = class';
     end
@@ -25,7 +28,7 @@ t = min(400, size(data, 1));
 
 rounds = 10; % 每个参数跑10次
 
-
+n = size(data, 1)
 class = double(class);
 
 
@@ -59,22 +62,13 @@ end
 Res = [Res; maxNMI; maxARI];
 end
 
-% 开始画图
+
 sig = siglist(pp);
-S = exp(-0.5 * (dist.^2)./(2 * sig ^ 2));
+S = exp(-0.5 * (dist.^2) ./ (2 * sig^2));
 
 Tclass = spectralcluster(S, k, 'Distance', 'precomputed', 'LaplacianNormalization', 'symmetric');
-% Tclass = spectralcluster(S,k,'Distance','precomputed','LaplacianNormalization','none');
-% [Tclass] = BestMapping(class, Tclass);
 [NMI] = nmi(class, Tclass);
 
-% color = ['r','b','b','c','m','y'];
-color = ['r','g','b','c','m','y','k',[0.5 0.5 0.5],'b','r'];
-
-gscatter(data(:, 1), data(:, 2), Tclass, color, [], 15);
-xlim([0 1]);     % 设置 x 轴范围
-ylim([0 1]);     % 设置 y 轴范围
-axis equal
-axis off
-% axis([0 1 0 1])
-set(gcf, 'InvertHardCopy', 'off');
+color = lines(k);
+gscatter(dataA(:, 1), dataA(:, 2), Tclass, color, [], 15);
+axis equal 
