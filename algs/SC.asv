@@ -2,15 +2,15 @@ clear;      % 清除工作区中的变量
 clc;        % 清除命令行窗口内容
 close all;  % 关闭所有打开的图窗
 addpath E:\XWJ_code\personal\IDKC\metrics
-datasets = ["E:\XWJ_code\personal\Data\one_gaussian_10_one_line_5_2_10.mat"];
+datasets = ["E:\XWJ_code\personal\Data\AC10.mat"];
 
 Res = []; % 保存每个数据集的最优聚类指标结果
 
 for datai = 1: length(datasets)
     datanow = char(datasets(datai));
     load(datanow);
-    data = all_data;
-    class = all_labels;
+    data = X;
+    class = gtlabels;
     if size(class, 1) < size(class, 2)
         class = class';
     end
