@@ -21,7 +21,7 @@
 addpath("IDKC")
 addpath("utils")
 addpath("metrics")
-load(['../Data/AC.mat'])
+load(['../Data/4C.mat'])
 
 data = double(data);    
 class = double(class);
