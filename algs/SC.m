@@ -2,7 +2,7 @@ clear;      % 清除工作区中的变量
 clc;        % 清除命令行窗口内容
 close all;  % 关闭所有打开的图窗
 addpath E:\XWJ_code\personal\IDKC\metrics
-datasets = ["E:\XWJ_code\personal\Data\4C.mat"];
+datasets = ["E:\XWJ_code\personal\Data\AC.mat"];
 
 Res = []; % 保存每个数据集的最优聚类指标结果
 
@@ -34,6 +34,7 @@ class = double(class);
 
 MA = zeros(rounds, 2);
 AA = zeros(rounds, 2);
+F1 = zeros(rounds, 2);
 
 
 for i = 1: 1: rounds
@@ -49,18 +50,18 @@ for i = 1: 1: rounds
 
         [NMI] = nmi(class, Tclass);
         [ARI] = ari(class, Tclass);
-        % [f1]=fmeasure(class,Tclass);
+        [matrix, unassign, match, nmiscore, amiscore, accurateScore, NetFmeasure, recall, precision, Fmeasure, indF] = evaluate(class,Tclass);
         MA(i, pp) = NMI;
         AA(i, pp) = ARI;
-        % FA(i,pp) = f1;
+        F1(i,pp) = Fmeasure;
     end
 end
 
 
 [maxNMI, pp] = max(mean(MA, 1));
 [maxARI, pp] = max(mean(AA, 1));
-% [maxFme, ~] = max(mean(FA, 1));
-Res = [Res; maxNMI; maxARI];
+[maxF1, pp] = max(mean(F1, 1));
+Res = [Res; maxNMI, maxARI, maxF1];
 end
 
 
