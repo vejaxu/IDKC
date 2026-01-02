@@ -1,2 +1,2 @@
 # IDKC
-This is a reproducible version of the IDKC algorithm.
+reproduce of Kernel-based clustering via Isolation Distributional Kernel -- Information System 2023
