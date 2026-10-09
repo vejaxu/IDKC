@@ -1,7 +1,8 @@
-addpath("IDKC")
-addpath("utils")
-addpath("metrics")
-load(['../Data/dense_8_sparse_1_sparse_1.mat'])
+project_dir = fileparts(fileparts(mfilename('fullpath')));
+addpath(fullfile(project_dir, 'IDKC'));
+addpath(fullfile(project_dir, 'utils'));
+addpath(fullfile(project_dir, 'metrics'));
+load(fullfile(project_dir, '..', 'Data', 'dense_8_sparse_1_sparse_1.mat'));
 
 data = double(data);
 data_row = data;

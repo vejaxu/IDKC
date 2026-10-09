@@ -1,7 +1,8 @@
 clear;      % 清除工作区中的变量
 clc;        % 清除命令行窗口内容
 close all;  % 关闭所有打开的图窗
-addpath E:\Code\CodeStore\Clustering\IDKC\metrics
+project_dir = fileparts(fileparts(mfilename('fullpath')));
+addpath(fullfile(project_dir, 'metrics'));
 datasets = ["E:\Code\data\pendigits.mat"];
 
 Res = []; % 保存每个数据集的最优聚类指标结果
@@ -9,8 +10,8 @@ Res = []; % 保存每个数据集的最优聚类指标结果
 for datai = 1: length(datasets)
     datanow = char(datasets(datai));
     load(datanow);
-    data = FeatureSelectionNCARegression;
-    class = label;
+    data = X;
+    class = gtlabels;
     if size(class, 1) < size(class, 2)
         class = class';
     end
@@ -44,8 +45,15 @@ for i = 1: 1: rounds
 
     for pp = 1: length(siglist) % 对于每个参数而言
         sig = siglist(pp);
-        S = exp(-0.5 * (dist.^2)./(2 * sig ^ 2));
-        S = double(S);
+        % S = exp(-0.5 * (dist.^2)./(2 * sig ^ 2));
+        % S = double(S);
+        % S(~isfinite(S)) = 0;  % 将非有限值设为0
+
+        S = exp(-0.5 * (dist.^2) ./ (2 * sig^2));
+        S = (S + S') / 2;        % 强制对称（消除数值不对称）
+        S = double(S);           % 确保是 double 类型
+        S(~isfinite(S)) = 0;     % 清除非有限值
+        S = max(S, S');          % 再次确保对称（可选）
         Tclass = spectralcluster(S, k, 'Distance', 'precomputed', 'LaplacianNormalization', 'symmetric');
 
         [NMI] = nmi(class, Tclass);
@@ -73,4 +81,4 @@ Tclass = spectralcluster(S, k, 'Distance', 'precomputed', 'LaplacianNormalizatio
 
 color = lines(k);
 gscatter(dataA(:, 1), dataA(:, 2), Tclass, color, [], 15);
-axis equal 
+axis equal

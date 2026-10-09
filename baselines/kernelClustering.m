@@ -1,5 +1,6 @@
 clc; clear; close all;
-addpath E:\XWJ_code\personal\IDKC\metrics
+project_dir = fileparts(fileparts(mfilename('fullpath')));
+addpath(fullfile(project_dir, 'metrics'));
 
 datafile = 'E:\XWJ_code\personal\Data\AC.mat';
 load(datafile);
