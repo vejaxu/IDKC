@@ -1,0 +1,7 @@
+/results/
+/.local/
+.DS_Store
+*.asv
+matlab_workspace.mat
+__pycache__/
+.vscode/
